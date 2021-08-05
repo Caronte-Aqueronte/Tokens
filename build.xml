@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+
+<project basedir="." default="jar" name="Primer proyecto de ant">
+
+<description> Ejemplo sencillo de utilización de ant para compilación </description>
+
+<!-- directorios globales para la compilación src-> código, build -> .class, dist->jar -->
+
+
+<property name="src" location="src"/>
+
+<property name="build" location="build"/>
+
+<property name="dist" location="dist"/>
+
+<property name="javadoc" location="javadoc"/>
+
+<!-- nombre para el jar -->
+
+
+<property name="nameDist" location="MyApp"/>
+
+
+<target name="init">
+
+<!-- generamos un timestamp -->
+
+
+<tstamp/>
+
+<!-- Create the build directory structure used by compile -->
+
+
+<mkdir dir="${build}"/>
+
+</target>
+
+
+<target name="compile" description="compile the source" depends="init">
+
+<!-- Compilando el código en ${src} a ${build} -->
+
+
+<javac destdir="${build}" srcdir="${src}"/>
+
+</target>
+
+
+<target name="runClass" description="compile the source" depends="compile">
+
+<!-- Compilando el código en ${src} a ${build} -->
+
+
+<java classpath="${build}" classname="src/principal/Principal"/>
+
+</target>
+
+
+<target name="jar" description="Generando el directori dist para almacenar el Jar " depends="compile">
+
+<!-- Creamos el directorio dist/lib -->
+
+
+<mkdir dir="${dist}/lib"/>
+
+<!-- Agregamos todo lo que hay en ${build} en ${nameDist}-${DSTAMP}.jar -->
+
+
+
+<jar basedir="${build}" jarfile="${dist}/lib/MyApp-${DSTAMP}.jar">
+
+
+<manifest>
+
+<attribute name="Main-Class" value="principal/Principal"/>
+
+</manifest>
+
+</jar>
+
+</target>
+
+<!-- Generando la javadoc opcional: depends="jar" -->
+
+
+
+<target name="javadoc">
+
+<echo>Making JavaDoc from source </echo>
+
+<mkdir dir="${javadoc}"/>
+
+
+<javadoc destdir="${javadoc}">
+
+<fileset dir="${src}"/>
+
+</javadoc>
+
+</target>
+
+<!-- Ejecutando el jar -->
+
+
+
+<target name="run" depends="jar">
+
+<java fork="true" jar="${dist}/lib/MyApp-${DSTAMP}.jar"/>
+
+</target>
+
+<!-- Eliminamos los directorios ${build} y ${dist} -->
+
+
+
+<target name="clean" description="Eliminando todos los directorios">
+
+<delete dir="${build}"/>
+
+<delete dir="${dist}"/>
+
+<delete dir="${javadoc}"/>
+
+</target>
+
+</project>
