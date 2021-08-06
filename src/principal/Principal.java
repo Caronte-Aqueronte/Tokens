@@ -7,4 +7,5 @@ public class Principal {
         Ingresar ingresar = new Ingresar();
         ingresar.setVisible(true);
     }    
+
 }
