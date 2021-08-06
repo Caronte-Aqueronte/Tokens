@@ -92,7 +92,12 @@ public class Ingresar extends javax.swing.JFrame {
             verSiEsEntero(item);
             verSiEsDecimal(item);
             verSiEsSimbolo(item);
+            verSiEsIdentificador(item);
+            if (verSiEsEntero(item) == false && verSiEsDecimal(item) == false && verSiEsSimbolo(item) == false && verSiEsIdentificador(item) == false) {
+                txtAnalizar.append("error: " + item + "\n");
+            }
         }
+
     }
 
     public boolean verSiEsEntero(String palabra) {
@@ -111,7 +116,7 @@ public class Ingresar extends javax.swing.JFrame {
         int contadorPuntoDecimal = 0;
         //vemos si el primerchar es numero
         if (palabra.charAt(0) < 48 || palabra.charAt(0) > 57) {
-            return false;        
+            return false;
         }
         //vemos si el ultimo char es un numero
         if (palabra.charAt(palabra.length() - 1) < 48 || palabra.charAt(palabra.length() - 1) > 57) {
@@ -128,23 +133,41 @@ public class Ingresar extends javax.swing.JFrame {
             return false;
         } else { // si no entonces solo hay un punto decimal
             for (int x = 0; x < palabra.length(); x++) {
-                if ((palabra.charAt(x) >= 48 && palabra.charAt(x) <= 57)||palabra.charAt(x) == '.') {
-                    
-                }else{
+                if ((palabra.charAt(x) >= 48 && palabra.charAt(x) <= 57) || palabra.charAt(x) == '.') {
+
+                } else {
                     return false;
                 }
             }
         }
-        txtAnalizar.append("decimal: "+palabra+"\n");
+        txtAnalizar.append("decimal: " + palabra + "\n");
         return true;
     }
-    public boolean verSiEsSimbolo(String palabra){
-        if("{".equals(palabra) || "}".equals(palabra) || "[".equals(palabra)||"]".equals(palabra)||";".equals(palabra)|| ",".equals(palabra)){
-            txtAnalizar.append("simbolo:: "+palabra+"\n");
+
+    public boolean verSiEsSimbolo(String palabra) {
+        if ("{".equals(palabra) || "}".equals(palabra) || "[".equals(palabra) || "]".equals(palabra) || ";".equals(palabra) || ",".equals(palabra)) {
+            txtAnalizar.append("simbolo:: " + palabra + "\n");
             return true;
-        }else{
+        } else {
             return false;
         }
+    }
+
+    public boolean verSiEsIdentificador(String palabra) {
+        char letra = 97;
+        System.out.println(letra);
+        if ((palabra.charAt(0) < 65 || palabra.charAt(0) > 90) && (palabra.charAt(0) < 97 || palabra.charAt(0) > 122)) {
+            return false;
+        }
+        for (int x = 0; x < palabra.length(); x++) {
+            if ((palabra.charAt(x) >= 48 && palabra.charAt(x) <= 57) || ((palabra.charAt(x) >= 65 && palabra.charAt(x) <= 90) || (palabra.charAt(x) >= 97 && palabra.charAt(x) <= 122))) {
+
+            } else {
+                return false;
+            }
+        }
+        txtAnalizar.append("identificador: " + palabra + "\n");
+        return true;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
