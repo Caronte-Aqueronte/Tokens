@@ -77,7 +77,7 @@ public class Ingresar extends javax.swing.JFrame {
     public void separarFrase(String frase) {
         String palabra = "";
         for (int x = 0; x < frase.length(); x++) {
-            if (frase.charAt(x) != ' ') {
+            if (frase.charAt(x) != ' ' && frase.charAt(x) != '\n') {
                 palabra = palabra + frase.charAt(x);
             } else {
                 palabras.add(palabra);
@@ -89,12 +89,8 @@ public class Ingresar extends javax.swing.JFrame {
         }
         //aqui mandamos a comparar los chars
         for (String item : palabras) {
-            verSiEsEntero(item);
-            verSiEsDecimal(item);
-            verSiEsSimbolo(item);
-            verSiEsIdentificador(item);
             if (verSiEsEntero(item) == false && verSiEsDecimal(item) == false && verSiEsSimbolo(item) == false && verSiEsIdentificador(item) == false) {
-                txtAnalizar.append("error: " + item + "\n");
+                txtAnalizar.append(Token.ERROR.getTipoDeToken() + item + "\n");
             }
         }
 
@@ -108,7 +104,7 @@ public class Ingresar extends javax.swing.JFrame {
                 return false;
             }
         }
-        txtAnalizar.append("entero: " + palabra + "\n");
+        txtAnalizar.append(Token.ENTERO.getTipoDeToken() + palabra + "\n");
         return true;
     }
 
@@ -140,13 +136,13 @@ public class Ingresar extends javax.swing.JFrame {
                 }
             }
         }
-        txtAnalizar.append("decimal: " + palabra + "\n");
+        txtAnalizar.append(Token.DECIMAL.getTipoDeToken() + palabra + "\n");
         return true;
     }
 
     public boolean verSiEsSimbolo(String palabra) {
         if ("{".equals(palabra) || "}".equals(palabra) || "[".equals(palabra) || "]".equals(palabra) || ";".equals(palabra) || ",".equals(palabra)) {
-            txtAnalizar.append("simbolo:: " + palabra + "\n");
+            txtAnalizar.append(Token.SIMBOLO.getTipoDeToken() + palabra + "\n");
             return true;
         } else {
             return false;
@@ -154,8 +150,6 @@ public class Ingresar extends javax.swing.JFrame {
     }
 
     public boolean verSiEsIdentificador(String palabra) {
-        char letra = 97;
-        System.out.println(letra);
         if ((palabra.charAt(0) < 65 || palabra.charAt(0) > 90) && (palabra.charAt(0) < 97 || palabra.charAt(0) > 122)) {
             return false;
         }
@@ -166,7 +160,7 @@ public class Ingresar extends javax.swing.JFrame {
                 return false;
             }
         }
-        txtAnalizar.append("identificador: " + palabra + "\n");
+        txtAnalizar.append(Token.IDENTIFICADOR.getTipoDeToken() + palabra + "\n");
         return true;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
